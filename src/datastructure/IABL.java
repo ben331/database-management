@@ -1,6 +1,6 @@
 package datastructure;
 
-public interface IAVL<K extends Comparable<K>,V> extends IBST<K, V>{
+public interface IABL<K extends Comparable<K>,V> extends IBST<K, V>{
 	
 	public void insertE(K key, V value);
 	public boolean removeE(K key);

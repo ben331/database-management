@@ -1,6 +1,6 @@
 package datastructure;
 
-public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V>{
+public class ABL<K extends Comparable<K>,V> extends BST<K,V> implements IABL<K,V>{
 	
 	@Override
 	public void insertE(K key, V value) {

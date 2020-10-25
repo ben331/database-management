@@ -96,4 +96,7 @@ public class Node<K extends Comparable<K>,V> {
 	public int getH() {
 		return h1>h2? h1:h2;
 	}
+	public boolean isSheet() {
+		return right==null && left==null;
+	}
 }

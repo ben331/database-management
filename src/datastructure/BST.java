@@ -74,18 +74,21 @@ public class BST<K extends Comparable<K>, V> implements IBST<K,V>{
 
 	@Override
 	public int getSize() {
-		return getSize(root, 0);
+		return getSize(root);
 	}
 	
-	private int getSize(Node<K,V> current, int size) {
+	private int getSize(Node<K,V> current) {
 		
-		if(current==null){
-			return size;
-		}else {
-			int sizeLeft=getSize(current.getLeft(), size);
-			int sizeRight=getSize(current.getRight(), size);
-			return sizeLeft + sizeRight + 1;
+		if(current!=null) {
+			if(current.isSheet()){
+				return 1;
+			}else {
+				int sizeLeft=getSize(current.getLeft());
+				int sizeRight=getSize(current.getRight());
+				return sizeLeft + sizeRight + 1;
+			}
 		}
+		return 0;
 	}
 
 	
