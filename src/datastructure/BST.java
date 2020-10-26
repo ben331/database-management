@@ -56,9 +56,9 @@ public class BST<K extends Comparable<K>, V> implements IBST<K,V>{
 		boolean wasFounded=false;
 		
 		while(current!=null && !wasFounded) {
-			if(current.getKey().compareTo(key)<0) {
+			if(current.getKey().compareTo(key)>0) {
 				current = current.getLeft();
-			}else if(current.getKey().compareTo(key)>0) {
+			}else if(current.getKey().compareTo(key)<0) {
 				current= current.getRight();
 			}else {
 				wasFounded=true;
@@ -69,7 +69,8 @@ public class BST<K extends Comparable<K>, V> implements IBST<K,V>{
 	
 	@Override
 	public V searchE(K key) {
-		return search(key).getValue();
+		Node<K, V> node = search(key);
+		return node!=null? node.getValue():null;
 	}
 
 	@Override
@@ -180,7 +181,42 @@ public class BST<K extends Comparable<K>, V> implements IBST<K,V>{
 	private boolean removeE(Node<K,V> element) {
 		if(element==null) {
 			return false;
-		}else if(element.getLeft()==null | element.getRight()==null) {      //Delete element with one child
+		}else if(element.getLeft()!=null && element.getRight()!=null) {      //Delete element with both children
+			
+			Node<K,V> min = element.getRight().getMin();
+			removeE(min);
+			min.setHead(element.getHead());
+			min.setRight(element.getRight());
+			min.setLeft(element.getLeft());
+			element.getLeft().setHead(min);
+			if(element.getRight()!=null) {
+				element.getRight().setHead(min);
+			}
+			if(element==root) {
+				root=min;
+			}else {
+				if(element.getHead().getLeft()==element) {
+					element.getHead().setLeft(min);
+				}else {
+					element.getHead().setRight(min);
+				}
+			}
+			return true;
+			
+		}else if(element.getLeft()==null && element.getRight()==null) {     //Delete sheet
+			if(element==root) {
+				root=null;
+			}else {
+				if(element.getHead().getLeft()==element) {
+					element.getHead().setLeft(null);
+				}else {
+					element.getHead().setRight(null);
+				}
+			}
+			return true;
+			
+			
+		}else {				                                             //Delete element with one child
 			if(element==root) {
 				if(element.getLeft()!=null) {
 					element.getLeft().setHead(null);
@@ -207,41 +243,8 @@ public class BST<K extends Comparable<K>, V> implements IBST<K,V>{
 				}				
 			}
 			return true;
+			//---
 			
-			
-		}else if(element.getLeft()==null && element.getRight()==null) {     //Delete sheet
-			if(element==root) {
-				root=null;
-			}else {
-				if(element.getHead().getLeft()==element) {
-					element.getHead().setLeft(null);
-				}else {
-					element.getHead().setRight(null);
-				}
-			}
-			return true;
-			
-			
-		}else {				                                             //Delete element with both children
-			Node<K,V> min = element.getRight().getMin();
-			removeE(min);
-			min.setHead(element.getHead());
-			min.setRight(element.getRight());
-			min.setLeft(element.getLeft());
-			element.getLeft().setHead(min);
-			if(element.getRight()!=null) {
-				element.getRight().setHead(min);
-			}
-			if(element==root) {
-				root=min;
-			}else {
-				if(element.getHead().getLeft()==element) {
-					element.getHead().setLeft(min);
-				}else {
-					element.getHead().setRight(min);
-				}
-			}
-			return true;
 		}
 	}
 }
