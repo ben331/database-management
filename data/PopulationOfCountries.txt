@@ -1,0 +1,35 @@
+United States,0.3242
+Brazil,0.2082
+Mexico,0.1263
+Colombia,0.0498
+Argentina,0.0442
+Canada,0.0369
+Peru,0.0323
+Venezuela,0.0278
+Chile,0.0187
+Guatemala,0.0175
+Ecuador,0.0173
+Bolivia,0.0114
+Haiti,0.0111
+Cuba,0.0110
+Dominican Republic,0.0106
+Honduras,0.0097
+Paraguay,0.0069
+Nicaragua,0.0064
+El Salvador,0.0063
+Costa Rica,0.0049
+Panama,0.0042
+Uruguay,0.0034
+Jamaica,0.0028
+Puerto Rico,0.0027
+Trinidad and Tobago,0.0013
+Guyana,0.0007
+Belize,0.0003
+Bahamas,0.0003
+French Guiana,0.0002
+Barbados,0.0002
+Saint Lucia,0.0001
+Grenada,0.0001
+St. Vincent & Grenadines,0.0001
+Antigua and Barbuda,9.5960
+Saint Pierre & Miquelon,5.6645
