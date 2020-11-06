@@ -21,6 +21,8 @@ public class Node<K extends Comparable<K>,V> {
 		super();
 		this.value= value;
 		this.key = key;
+		this.h1=0;
+		this.h2=0;
 	}
 
 	public K getKey() {
