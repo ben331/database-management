@@ -21,6 +21,12 @@ public class DataBase {
 	
 	public DataBase() {
 		currentCode = 1;
+		
+		treeN = new AVL<>();
+		treeL = new AVL<>();
+		treeC = new AVL<>();
+		treeI = new AVL<>();
+		
 	}
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
@@ -57,7 +63,10 @@ public class DataBase {
 		
 		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday);
 		
-		
+		treeN.insertE(code, newP);
+		treeL.insertE(code, newP);
+		treeC.insertE(code, newP);
+		treeI.insertE(code, newP);
 		
 		
 	}
@@ -74,22 +83,7 @@ public class DataBase {
 	 * @param birthday es la fecha de nacimiento actualizada, puede estar vacias en ese caso no se cambia<br>
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
-	
-	private void addPersonAVL(Person newP) {
-		
-	}
-	
-	private void addPersonBST(Person newP) {
-		
-	}
 
-	private void addPersonIAVL(Person newP) {
-	
-	}
-	private void addPersonIBST(Person newP) {
-	
-	}
-	
 	public void updatePerson(String searchId, String searchName,String searchLastName,String name, String lastName, char gender, double height, String nationality,
 			Date birthday, Image photo) {
 		
@@ -102,6 +96,8 @@ public class DataBase {
 	 */
 	public void deletePerson(String id,String n, String l) {
 		
+		
+		
 	}
 	/**
 	 *<b>Description:</b> busca a una persona en la base de datos seleccionada<br>
@@ -111,6 +107,9 @@ public class DataBase {
 	 * @return es la persona que encontro que cumple con el parametro de k<br>
 	 */
 	public Person searchPerson(String k, char c,int i) {
+		
+		
+		
 		return null;
 	}
 	/**
