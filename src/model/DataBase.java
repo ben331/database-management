@@ -10,6 +10,7 @@ public class DataBase {
 	public static char TREE_LASTNAME = 'L';
 	public static char TREE_NAME_AND_LASTNAME = 'C';
 	public static char TREE_ID = 'I';
+	
 	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeN;
