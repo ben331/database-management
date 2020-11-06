@@ -395,8 +395,8 @@ class AVLTest {
 		Node<Integer, String> current;
 		
 		current = tree.getRoot();
-		assertEquals(-1, current.getBFactor());
 		assertEquals(11, current.getKey());
+		assertEquals(-1, current.getBFactor());
 		
 		current = current.getLeft();
 		assertEquals(-1, current.getBFactor());
@@ -434,21 +434,21 @@ class AVLTest {
 		assertEquals(6, current.getKey());
 		
 		current = current.getLeft();
-		assertEquals(0, current.getBFactor());
+		assertEquals(-1, current.getBFactor());
 		assertEquals(5, current.getKey());
 		
-		assertEquals(0, current.getLeft().getBFactor());
-		assertEquals(3, current.getLeft().getKey());
-		
-		assertEquals(0, current.getRight().getBFactor());
-		assertEquals(8, current.getRight().getKey());
+		current = current.getLeft();
+		assertEquals(0, current.getBFactor());
+		assertEquals(3, current.getKey());
 		
 		current = tree.getRoot().getRight();
-		assertEquals(1, current.getBFactor());
+		assertEquals(0, current.getBFactor());
 		assertEquals(12, current.getKey());
 		
-		current = current.getRight();
-		assertEquals(0, current.getBFactor());
-		assertEquals(15, current.getKey());
+		assertEquals(0, current.getLeft().getBFactor());
+		assertEquals(8, current.getLeft().getKey());
+		
+		assertEquals(0, current.getRight().getBFactor());
+		assertEquals(15, current.getRight().getKey());
 	}
 }
