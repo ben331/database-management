@@ -1,9 +1,12 @@
 package model;
 
-import java.awt.Image;
+
 import java.util.Date;
 
+import javafx.scene.image.Image;
+
 public class Person {
+	
 	private String code;
 	private String name;
 	private String lastName;
@@ -12,8 +15,9 @@ public class Person {
 	private String nationality;
 	private Date birthday;
 	private Image photo;
+	
 	public Person(String code, String name, String lastName, char gender, double height, String nationality,
-			Date birthday, Image photo) {
+			Date birthday) {
 		super();
 		this.code = code;
 		this.name = name;
@@ -22,7 +26,6 @@ public class Person {
 		this.height = height;
 		this.nationality = nationality;
 		this.birthday = birthday;
-		this.photo = photo;
 	}
 	public String getName() {
 		return name;

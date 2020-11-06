@@ -10,15 +10,16 @@ public class DataBase {
 	public static char TREE_LASTNAME = 'L';
 	public static char TREE_NAME_AND_LASTNAME = 'C';
 	public static char TREE_ID = 'I';
+	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeN;
 	private AVL<String,Person> treeL;
 	private AVL<String,Person> treeC;
 	private AVL<String,Person> treeI;
-	private int actualCode;
+	private int currentCode;
 	
 	public DataBase() {
-		actualCode = 1;
+		currentCode = 1;
 	}
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
@@ -45,7 +46,15 @@ public class DataBase {
 	public void addPerson(String name, String lastName, char gender, double height, String nationality,
 			Date birthday, Image photo) {
 		
-		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday, photo);
+		String code = "";
+		int numberDigits = (currentCode+"").length();
+		
+		for(int i=numberDigits; i<DIGITS_CODE;i++) {
+			code +="0";
+		}
+		code += numberDigits; 
+		
+		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday);
 		
 		
 		
