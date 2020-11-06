@@ -27,6 +27,8 @@ public class DataBase {
 	 */
 	public void generateRegister(int amount) {
 		
+		
+		
 	}
 	/**
 	 * <b>Description:</b> agrega una nueva persona a las 4 bases de datos<br>
@@ -43,6 +45,11 @@ public class DataBase {
 	public void addPerson(String name, String lastName, char gender, double height, String nationality,
 			Date birthday, Image photo) {
 		
+		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday, photo);
+		
+		
+		
+		
 	}
 	/**
 	 *<b>Description:</b> actualiza la informacion de una persona en las 4 bases de datos<br>
@@ -57,6 +64,22 @@ public class DataBase {
 	 * @param birthday es la fecha de nacimiento actualizada, puede estar vacias en ese caso no se cambia<br>
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
+	
+	private void addPersonAVL(Person newP) {
+		
+	}
+	
+	private void addPersonBST(Person newP) {
+		
+	}
+
+	private void addPersonIAVL(Person newP) {
+	
+	}
+	private void addPersonIBST(Person newP) {
+	
+	}
+	
 	public void updatePerson(String searchId, String searchName,String searchLastName,String name, String lastName, char gender, double height, String nationality,
 			Date birthday, Image photo) {
 		
