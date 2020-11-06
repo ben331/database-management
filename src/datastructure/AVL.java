@@ -4,7 +4,6 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 	
 	@Override
 	public void insertE(K key, V value) {
-		
 
 		Node<K,V> element = new Node<K,V>(key, value);
 		
@@ -38,19 +37,20 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 		}
 		
 		refreshHeights(element.getHead(), true);
-		rebalance();
+		//rebalance();
 	}
 	
 	@Override
 	public boolean removeE(K key) {
 		Node<K,V> element = search(key);
+		//rebalance();
 		return removeE(element);
 	}
 		
 	private boolean removeE(Node<K,V> element) {
 		if(element==null) {
 			return false;
-		}else if(element.getLeft()==null | element.getRight()==null) {      //Delete element with one child
+		}else if(element.getLeft()==null || element.getRight()==null) {      //Delete element with one child
 			if(element==getRoot()) {
 				if(element.getLeft()!=null) {
 					element.getLeft().setHead(null);
@@ -113,7 +113,6 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 					element.getHead().setRight(min);
 				}
 			}
-			refreshHeights(element.getHead(), true);
 			return true;
 		}
 	}
@@ -146,22 +145,22 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 		Node<K,V> father = node.getHead();
 		Node<K,V> right = node.getRight();
 		
-		//Case F
-		if(right.getBFactor()==1) { //Became in case A o B
+		//Case C
+		if(right.getBFactor()==-1) { //Became in case A o B
 			rightRotate(right);
 		}
 		
 		right = node.getRight();
 		
-		//Case D o E
+		//Case A o B
 		
-		//Set left's father element for unbalanced's father.
+		//Set right's father element as unbalanced's father.
 		
 		if(node.equals(getRoot())) {
 			right.setHead(null);
 			setRoot(right);
 		}else {
-			right.setHead(node.getHead());
+			right.setHead(father);
 			if(father.getLeft()==node){
 				father.setLeft(right);
 			}else {
@@ -173,10 +172,16 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 		Node<K,V> middle = right.getLeft();
 		if(middle!=null) {
 			node.setRight(middle);
+			node.setH2(middle.getH()+1); //Refresh Balance factor
+		}else {
+			node.setRight(null);
+			node.setH2(0);
 		}
 		
 		// Turn down the unbalanced node
 		right.setLeft(node);
+		right.setH1(node.getH()+1);
+		node.setHead(right);
 	}
 
 	@Override
@@ -184,14 +189,14 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 		Node<K,V> father = node.getHead();
 		Node<K,V> left = node.getLeft();
 		
-		//Case C
-		if(left.getBFactor()==1) { //Became in case A o B
+		//Case F
+		if(left.getBFactor()==1) { //Became in case D o E
 			leftRotate(left);
 		}
 		
 		left = node.getLeft();
 		
-		//Case A o B
+		//Case D o E
 		
 		//Set left's father element for unbalanced's father.
 		if(node.equals(getRoot())) {
@@ -207,15 +212,28 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 		}
 		
 		//if the node of the middle exist change of side.
-		Node<K,V> middle = left.getRight();
-		if(middle!=null) {
-			node.setLeft(middle);
-		}
-		
-		// Turn down the unbalanced node
-		left.setRight(node);
+			Node<K,V> middle = left.getRight();
+			if(middle!=null) {
+				node.setLeft(middle);
+				node.setH1(middle.getH()+1); //Refresh Balance factor
+			}else {
+				node.setLeft(null);
+				node.setH1(0);
+			}
+			
+			// Turn down the unbalanced node
+			left.setRight(node);
+			left.setH2(node.getH()+1);
+			node.setHead(left);
 	}
 	
+	/**
+	 * <h1> Refresh Heights <\h1>
+	 * <p> In a AVL, this method refresh the right and left height of a given node and his ancestors.
+	 * It usually works after insert of delete <\p>
+	 * @param element Is an object of type Node<K,V> such this node is in the current AVL. 
+	 * @param first Is a boolean value that express if is the first case, or a recursive case.
+	 */
 	private void refreshHeights(Node<K,V> element, boolean first) {
 		if(element!=null) {
 			if(first) {
@@ -242,9 +260,9 @@ public class AVL<K extends Comparable<K>,V> extends BST<K,V> implements IAVL<K,V
 				Node<K, V> right = element.getRight();
 				
 				if(left!=null) {
-					element.setH1(left.getH());
+					element.setH1(left.getH()+1);
 				}if(right!=null) {
-					element.setH2(right.getH());
+					element.setH2(right.getH()+1);
 				}
 				
 				if(height!=element.getH()) {
