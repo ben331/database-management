@@ -10,10 +10,7 @@ public class DataBase {
 	public static char TREE_LASTNAME = 'L';
 	public static char TREE_NAME_AND_LASTNAME = 'C';
 	public static char TREE_ID = 'I';
-	public static String FEMALE_NAMES = "\data\FemaleNames.txt";
-	public static String LAST_NAMES = "\data\LastNames";
-	public static String MALE_NAMES = "\data\MaleNames";
-	public static String CONTRY_POPULATION = "PopulationOfCountries";
+
 	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeN;
@@ -21,6 +18,8 @@ public class DataBase {
 	private AVL<String,Person> treeC;
 	private AVL<String,Person> treeI;
 	private int currentCode;
+	
+	private Person actualPerson;
 	
 	public DataBase() {
 		currentCode = 1;
@@ -97,11 +96,21 @@ public class DataBase {
 	 * @param n es el nombre que se usa para eliminar en el arbol de name, tambien es la primera parte para eliminar el arbol de name y lastName<br>
 	 * @param l es ek apellido que se usa para eliminar en el arbol de lastName, tambien es la segunda parte para eliminar el arbol de name y lastName<br>
 	 */
-	public void deletePerson(String id,String n, String l) {
+	public void deletePerson(String id, String n, String l) {
 		
-		
+		Person person = searchPerson(id, 'N');
+		treeN.removeE(key);
+		person = searchPerson(id, 'L');
+		treeN.removeE(key);
+		person = searchPerson(id, 'C');
+		treeN.removeE(key);
+		person = searchPerson(id, 'I');
+		treeN.removeE(key);
 		
 	}
+	
+	
+	
 	/**
 	 *<b>Description:</b> busca a una persona en la base de datos seleccionada<br>
 	 * @param k es la clave que se usa para buscar en una base de datos<br>
@@ -109,14 +118,24 @@ public class DataBase {
 	 * @param i es la cantidad de busquedas que debe realizar para generar las sugerencias<br>
 	 * @return es la persona que encontro que cumple con el parametro de k<br>
 	 */
-	public Person searchPerson(String k, char c,int i) {
+	public Person searchPerson(String k, char c) {
 		
 		Person personR ;
 		
-		personR = treeN.searchE(k);
+		if(c == 'N') {
+			personR = treeN.searchE(k);
+		}else if(c == 'L') {
+			personR = treeL.searchE(k);
+		}else if(c == 'C') {
+			personR = treeC.searchE(k);
+		}else {
+			personR = treeI.searchE(k);
+		}
 		
 		return personR;
+		
 	}
+	
 	/**
 	 * <Description:</b> genera una lista de sugerencia con la busqueda de todos los que cumplen con un parametro de busqueda<br>
 	 * @param k es la clave que se usa para buscar en una base de datos<br>
