@@ -1,25 +1,25 @@
 package model;
 
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import javafx.scene.image.Image;
 
 public class Person {
-	public static char MALE = 'M';
-	public static char FEMALE = 'F';
+	
+	public static final char MALE = 'M';
+	public static final char FEMALE = 'F';
 
 	private String code;
 	private String name;
 	private String lastName;
 	private char gender;
-	private double height;
+	private int height;
 	private String nationality;
-	private Date birthday;
+	private LocalDate birthday;
 	private Image photo;
 	
-	public Person(String code, String name, String lastName, char gender, double height, String nationality,
-			Date birthday) {
+	public Person(String code, String name, String lastName, char gender, int height, String nationality,
+			LocalDate birthday) {
 		super();
 		this.code = code;
 		this.name = name;
@@ -47,10 +47,10 @@ public class Person {
 	public void setGender(char gender) {
 		this.gender = gender;
 	}
-	public double getHeight() {
+	public int getHeight() {
 		return height;
 	}
-	public void setHeight(double height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 	public String getNationality() {
@@ -59,10 +59,10 @@ public class Person {
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
 	}
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 	public Image getPhoto() {
