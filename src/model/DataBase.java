@@ -183,6 +183,8 @@ public class DataBase {
 	public void updatePerson(String searchId, String name, String lastName, char gender, double height, String nationality,
 			LocalDate birthday, Image photo) {
 		
+		
+		
 	}
 	/**
 	 * <b>Description:</b> elimina una persona en las 4 bases de datos<br>
