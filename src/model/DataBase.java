@@ -19,11 +19,11 @@ public class DataBase {
 	public static final char TREE_LASTNAME = 'L';
 	public static final char TREE_FULLNAME = 'F';
 	public static final char TREE_CODE = 'C';
-	public static final String FEMALE_NAMES = "/data/FemaleNames.txt";
-	public static final String LAST_NAMES = "/data/LastNames";
-	public static final String MALE_NAMES = "/data/MaleNames";
-	public static final String CONTRY_POPULATION = "/data/PopulationOfCountries";
-	public static final String AGE_PROPORTION = "/data/AgeProportion.txt";
+	public static final String FEMALE_NAMES = "data/FemaleNames.txt";
+	public static final String LAST_NAMES = "data/LastNames.txt";
+	public static final String MALE_NAMES = "data/MaleNames.txt";
+	public static final String CONTRY_POPULATION = "data/PopulationOfCountries.txt";
+	public static final String AGE_PROPORTION = "data/AgeProportion.txt";
 	public static final int AGES = 5;
 	public static final int COUNTRIES = 35;
 	public static int DIGITS_CODE = 10;
@@ -178,7 +178,7 @@ public class DataBase {
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
 
-	public void updatePerson(String searchId, String name, String lastName, char gender, double height, String nationality,
+	public void updatePerson(String code, String name, String lastName, char gender, double height, String nationality,
 			LocalDate birthday, Image photo) {
 		
 	}
@@ -227,13 +227,6 @@ public class DataBase {
 		return personR;
 		
 	}
-	
-	/**
-	 * <Description:</b> genera una lista de sugerencia con la busqueda de todos los que cumplen con un parametro de busqueda<br>
-	 * @param k es la clave que se usa para buscar en una base de datos<br>
-	 * @param c es en cual de los 4 arboles se va a realizar la busqueda<br>
-	 * @return es una lista con todos los que cumplen con el parametro de busqueda<br>
-	 */
 	
 
 	public void searchCoincidences(String text, char c){

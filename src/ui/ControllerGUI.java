@@ -126,8 +126,10 @@ public class ControllerGUI {
     			throw new NumberFormatException();
     		}
     		
+    		long time = System.currentTimeMillis();
+    		
     		//Heavy Algorithm
-        	new Thread() {
+        	Thread threadToGenerate = new Thread() {
         		@Override
         		public void run() {
         			try {
@@ -136,17 +138,45 @@ public class ControllerGUI {
 						e.printStackTrace();
 					}
        	    	}
-        	}.start();
+        	};
         	
-        	runAnimation();
+        	threadToGenerate.start();
         	
+        	Thread.sleep(1000);
+        	
+        	if(threadToGenerate.isAlive()) {
+        		runAnimation();
+        	}
+        	       	
+        	time = (System.currentTimeMillis() - time)/1000;
+			String sTime = time%60+"s";
+			time = time/60;
+			String rTime = time + " min " + sTime;
+			
+			Platform.runLater( new Thread() {
+	   			public void run() {
+	   				animationPane.setVisible(false);
+	   				btGenerate.setDisable(false);
+	   				
+	   				Alert alert = new Alert(AlertType.CONFIRMATION, "Population generated \nTime: "+rTime, ButtonType.OK);
+	    			alert.setTitle("Finish");
+	    			alert.showAndWait();
+	    			}
+    		});
+			
+
         	Alert alert2 = new Alert(AlertType.CONFIRMATION, "Do you really want to add this population?", ButtonType.YES, ButtonType.NO);
 			alert2.setTitle("Alert");
 			
 	        ButtonType result = alert2.showAndWait().orElse(ButtonType.NO);
 	        
 	        if (ButtonType.YES.equals(result)) {
-	           database.addPopulation();
+	        	new Thread() {
+	        		@Override
+	        		public void run() {
+	        			database.addPopulation();;
+	       	    	}
+	        	}.start();
 	        }
     	}catch(NumberFormatException e){
     		txtPopulation.setText("");
@@ -154,7 +184,9 @@ public class ControllerGUI {
 			alert.setTitle("Warning");
 			alert.setContentText("Type a positive real number less than or equal to 1000'000.000");
 			alert.showAndWait();
-    	}
+    	} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     }
     
     //Add user Scene--------------------------------------------------------------------------
@@ -478,7 +510,7 @@ public class ControllerGUI {
     	new Thread() {
     		@Override
     		public void run() {
-    			long time = System.currentTimeMillis();
+    			
     			boolean finish=false;
     			do {
     				int progress = database.getProgress();
@@ -491,7 +523,7 @@ public class ControllerGUI {
             		});
         			
         			try {
-						Thread.sleep(1);
+						Thread.sleep(3);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -501,22 +533,7 @@ public class ControllerGUI {
         			}
     			}while(!finish);
     			
-    			time = (System.currentTimeMillis() - time)/1000;
-    			String sTime = time%60+"s";
-    			time = time/60;
-    			String rTime = time + " min " + sTime;
     			
-    			Platform.runLater( new Thread() {
-    	   			public void run() {
-    	   				animationPane.setVisible(false);
-    	   				btGenerate.setDisable(false);
-    	   				
-    	   				Alert alert = new Alert(AlertType.INFORMATION);
-    	    			alert.setTitle("Finish");
-    	    			alert.setContentText("Population generated \nTime: "+rTime);
-    	    			alert.showAndWait();
-   	    			}
-        		});
     		}
     	}.start();
     }
