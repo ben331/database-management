@@ -12,3 +12,5 @@ Tech Spec
 lenguaje: java 8
 SO: Windows
 develop environment: Eclipse and Itellij IDEA
+
+Milestone1
