@@ -32,7 +32,10 @@ public class DataBase {
 	private AVL<String,Person> treeL;
 	private AVL<String,Person> treeC;
 	private AVL<String,Person> treeI;
+	
 	private int currentCode;
+	private int progress;
+	private ArrayList<Person> suggestions;
 	
 	private Person actualPerson;
 	
@@ -44,12 +47,24 @@ public class DataBase {
 		treeC = new AVL<>();
 		treeI = new AVL<>();
 		
+		suggestions = new ArrayList<Person>();
+		progress=0;
 	}
+	
+	public ArrayList<Person> getSuggestions(){
+		return suggestions;
+	}
+	
+	public int getProgress() {
+		return progress;
+	}
+	
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
 	 * que contienen la informacion (con bufferedReader)<br>
 	 * @param amount es la cantidad de personas que se crean<br>
 	 */
+<<<<<<< HEAD
 	public void generateRegister(int amount) throws IOException {
 		BufferedReader brFNames = new BufferedReader(new FileReader(FEMALE_NAMES));
 		BufferedReader brMNames = new BufferedReader(new FileReader(MALE_NAMES));
@@ -110,6 +125,10 @@ public class DataBase {
 			//falta la estatura 
 		}
 
+=======
+	public void generateRegister(int amount) {
+		
+>>>>>>> featureBenjamin
 	}
 	/**
 	 * <b>Description:</b> agrega una nueva persona a las 4 bases de datos<br>
@@ -190,7 +209,6 @@ public class DataBase {
 	 */
 	public Person searchPerson(String k, char c) {
 		
-<<<<<<< HEAD
 		Person personR ;
 		
 		if(c == 'N') {
@@ -202,8 +220,7 @@ public class DataBase {
 		}else {
 			personR = treeI.searchE(k);
 		}
-=======
->>>>>>> featureNicolas
+
 		
 		return personR;
 		
@@ -215,7 +232,9 @@ public class DataBase {
 	 * @param c es en cual de los 4 arboles se va a realizar la busqueda<br>
 	 * @return es una lista con todos los que cumplen con el parametro de busqueda<br>
 	 */
-	public  ArrayList<Person> listSuggestions(String k, char c){
+	
+
+	public  void listSuggestions(String k, char c){
 		boolean noMore = false;
 		ArrayList<Person> list = new ArrayList<>();
 		for(int i = 0;i < 21&&!noMore;i++){
@@ -226,6 +245,14 @@ public class DataBase {
 				noMore = true;
 			}
 		}
-		return list;
+		this.suggestions=list;
+	}
+	
+	public int getRectangleWidth() {
+		return progress/100 * 540;
+	}
+	
+	public void saveData() {
+		
 	}
 }

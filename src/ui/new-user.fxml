@@ -27,7 +27,7 @@
       <TextField fx:id="txtNationality" layoutX="196.0" layoutY="251.0" />
       <DatePicker fx:id="birthdate" layoutX="196.0" layoutY="298.0" />
       <Label layoutX="112.0" layoutY="303.0" text="Birthdate" />
-      <Button layoutX="202.0" layoutY="349.0" mnemonicParsing="false" onAction="#add" text="Add" />
-      <Button layoutX="273.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="btAdd" layoutX="202.0" layoutY="349.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="btCancel" layoutX="273.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
    </children>
 </AnchorPane>

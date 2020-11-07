@@ -7,25 +7,29 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="txtPopulation" alignment="CENTER" layoutX="165.0" layoutY="111.0" prefHeight="31.0" prefWidth="270.0" promptText="Max 1000 000 000" />
-      <Button layoutX="260.0" layoutY="155.0" mnemonicParsing="false" onAction="#generateData" text="Generate" />
+      <Button fx:id="btGenerate" layoutX="260.0" layoutY="155.0" mnemonicParsing="false" onAction="#generateData" text="Generate" />
       <Label layoutX="216.0" layoutY="55.0" prefHeight="44.0" prefWidth="177.0" text="Generate Data">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="animationPane" layoutY="226.0" prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: GRAY;">
+      <AnchorPane fx:id="animationPane" disable="true" layoutY="226.0" prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: GRAY;" visible="false">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutX="40.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="537.0" />
-            <Rectangle fx:id="rectangleBlue" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="40.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutX="41.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="535.0" />
             <Label layoutX="258.0" layoutY="51.0" text="Generating. . ." textFill="WHITE">
                <font>
                   <Font name="Calibri Bold Italic" size="17.0" />
                </font>
             </Label>
+            <Label fx:id="labPercent" layoutX="538.0" layoutY="51.0" prefHeight="21.0" prefWidth="42.0" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold Italic" size="17.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="rectangleBlue" arcHeight="5.0" fill="#0b457c" height="20.0" layoutX="40.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </AnchorPane>
    </children>
