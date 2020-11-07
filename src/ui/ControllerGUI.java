@@ -513,7 +513,7 @@ public class ControllerGUI {
     			
     			boolean finish=false;
     			do {
-    				int progress = database.getProgress();
+    				int progress = (int) database.getProgress();
         			
         			Platform.runLater( new Thread() {
         	   			public void run() {

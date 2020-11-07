@@ -20,9 +20,9 @@ public class DataBase {
 	public static final char TREE_FULLNAME = 'F';
 	public static final char TREE_CODE = 'C';
 	public static final String FEMALE_NAMES = "data/FemaleNames.txt";
-	public static final String LAST_NAMES = "data/LastNames.txt";
-	public static final String MALE_NAMES = "data/MaleNames.txt";
-	public static final String CONTRY_POPULATION = "data/PopulationOfCountries.txt";
+	public static final String LAST_NAMES = "data/LastNames";
+	public static final String MALE_NAMES = "data/MaleNames";
+	public static final String CONTRY_POPULATION = "data/PopulationOfCountries";
 	public static final String AGE_PROPORTION = "data/AgeProportion.txt";
 	public static final int AGES = 5;
 	public static final int COUNTRIES = 35;
@@ -34,10 +34,11 @@ public class DataBase {
 	private AVL<String,Person> treeCode;
 	
 	private int currentCode;
-	private int progress;
+	private double progress;
 	private ArrayList<Person> coincidences;
 	private ArrayList<String> coincidentsKeys;
 	private Person selectedPerson;
+	private Person[] autoGen;
 	
 	public DataBase() {
 		currentCode = 1;
@@ -56,7 +57,7 @@ public class DataBase {
 		return coincidences;
 	}
 	
-	public int getProgress() {
+	public double getProgress() {
 		return progress;
 	}
 	
@@ -71,14 +72,20 @@ public class DataBase {
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
 	 * que contienen la informacion (con bufferedReader)<br>
-	 * @param amount es la cantidad de personas que se crean<br>
+	 * @param amount es la cantidad de personas que se crean, the maximun size is 1 million<br>
 	 */
 	public void generateRegister(int amount) throws IOException {
+		autoGen = new Person[amount];
 		BufferedReader brFNames = new BufferedReader(new FileReader(FEMALE_NAMES));
 		BufferedReader brMNames = new BufferedReader(new FileReader(MALE_NAMES));
 		BufferedReader brLastNames = new BufferedReader(new FileReader(LAST_NAMES));
 		BufferedReader brCountry = new BufferedReader(new FileReader(CONTRY_POPULATION));
 		BufferedReader brAgeRate = new BufferedReader(new FileReader(AGE_PROPORTION));
+		brFNames.mark(0);
+		brMNames.mark(0);
+		brLastNames.mark(0);
+		brCountry.mark(0);
+		brAgeRate.mark(0);
 		String[] countries = new String[COUNTRIES];
 		int[] countriesAmount = new int[COUNTRIES];
 		int[] minAge = new int[AGES];
@@ -98,7 +105,15 @@ public class DataBase {
 		int maleDivFemale = amount/2;
 		for(int i = 0;i < maleDivFemale;i++){ //male
 			String name = brMNames.readLine();
+			if(name==null){
+				brMNames.reset();
+				name = brMNames.readLine();
+			}
 			String lastName = brLastNames.readLine();
+			if(lastName==null){
+				brLastNames.reset();
+				lastName = brLastNames.readLine();
+			}
 			char gender = Person.MALE;
 			int randCountry = (int) Math.floor(Math.random()*COUNTRIES);
 			while(countriesAmount[randCountry]==0){
@@ -129,8 +144,98 @@ public class DataBase {
 					day = (int)Math.floor(Math.random()*31+1);
 				}
 			}
-			LocalDate birth = LocalDate.of(day,month,year); //check Date constructor
+			LocalDate birth = LocalDate.of(year,month,day);
+			int heigth;
+			if(age<4){
+				 heigth = (int)Math.floor(Math.random()*6+40);
+			}else if(age < 13){
+				 heigth = (int)Math.floor(Math.random()*5+100);
+			}else{
+				 heigth = (int)Math.floor(Math.random()*5+150);
+			}
+			String code = "";
+			int numberDigits = (currentCode+"").length();
+
+			for(int j=numberDigits; j<DIGITS_CODE;j++) {
+				code +="0";
+			}
+			code += numberDigits;
+			currentCode++;
+			autoGen[i] = new Person(code,name,lastName,gender,heigth,country,birth);
+			progress = i/amount;
+		}for(int i = maleDivFemale;i < amount;i++){ //female
+			String name = brFNames.readLine();
+			if(name == null){
+				brFNames.reset();
+				name = brFNames.readLine();
+			}
+			String lastName = brLastNames.readLine();
+			if(lastName == null){
+				brLastNames.reset();
+				lastName = brLastNames.readLine();
+			}
+			char gender = Person.FEMALE;
+			int randCountry = (int) Math.floor(Math.random()*COUNTRIES);
+			while(countriesAmount[randCountry]==0){
+				randCountry = (int) Math.floor(Math.random()*COUNTRIES);
+			}
+			String country = countries[randCountry];
+			countriesAmount[randCountry]-=1;
+			int randAge = (int)Math.floor(Math.random()*AGES);
+			while(amountAge[randAge]==0){
+				randAge = (int)Math.floor(Math.random()*AGES);
+			}
+			int age = (int)Math.floor(Math.random()*(maxAge[randAge]-minAge[randAge])+minAge[randAge]);
+			int year = 2020 - age;
+			int month = (int)Math.floor(Math.random()*12+1);
+			int day = 0;
+			if(month==2){
+				day = (int)Math.floor(Math.random()*27+1);
+			}else if(month%2==0){
+				if(month>7){
+					day = (int)Math.floor(Math.random()*31+1);
+				}else{
+					day = (int)Math.floor(Math.random()*30+1);
+				}
+			}else{
+				if(month>7){
+					day = (int)Math.floor(Math.random()*30+1);
+				}else{
+					day = (int)Math.floor(Math.random()*31+1);
+				}
+			}
+			LocalDate birth = LocalDate.of(year,month,day);
+			int heigth;
+			if(age<4){
+				heigth = (int)Math.floor(Math.random()*6+40);
+			}else if(age < 13){
+				heigth = (int)Math.floor(Math.random()*5+100);
+			}else{
+				heigth = (int)Math.floor(Math.random()*5+150);
+			}
+			String code = "";
+			int numberDigits = (currentCode+"").length();
+
+			for(int j=numberDigits; j<DIGITS_CODE;j++) {
+				code +="0";
+			}
+			code += numberDigits;
+			currentCode++;
+			autoGen[i] = new Person(code,name,lastName,gender,heigth,country,birth);
+			progress = i/amount;
+			
+			brFNames.close();
+			brMNames.close();
+			brLastNames.close();
+			brCountry.close();
+			brAgeRate.close();
 		}
+	}
+	public void addPerson(Person p){
+		treeName.insertE(p.getName()+p.getCode(), p);
+		treeLastname.insertE(p.getLastName()+p.getCode(),p);
+		treeFullName.insertE(p.getName()+p.getLastName()+p.getCode(), p);
+		treeCode.insertE(p.getCode(), p);
 	}
 	/**
 	 * <b>Description:</b> agrega una nueva persona a las 4 bases de datos<br>
@@ -141,7 +246,6 @@ public class DataBase {
 	 * @param height es la altura de la persona, es un double que tenga sentido <br>
 	 * @param nationality es la nacionalidad de la persona,nationality != null<br>
 	 * @param birthday es la fecha de nacimiento de la persona, es un obejto Date ya hecho<br>
-	 * @param photo es la foto de la persona, es un objeto Image ya manejado<br>
 	 * <b>Output:</b> una persona que se agrega a las 4 bases de datos<br>
 	 */
 	public void addPerson(String name, String lastName, char gender, int height, String nationality,
@@ -154,7 +258,7 @@ public class DataBase {
 			code +="0";
 		}
 		code += numberDigits; 
-		
+		currentCode++;
 		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday);
 		
 		treeName.insertE(name+code, newP);
@@ -166,9 +270,7 @@ public class DataBase {
 	}
 	/**
 	 *<b>Description:</b> actualiza la informacion de una persona en las 4 bases de datos<br>
-	 * @param searchId es el id con el que realiza la busqueda en el arbol de id<br>
-	 * @param searchName es el nombre con el que busca en el arbol de name<br>
-	 * @param searchLastName es el apellido con el que busca en el arbol de lastName<br>
+	 * @param code es el codigo de busqueda,no puede estar vacio<br>
 	 * @param name es el nombre actualizado, puede estar vacio en ese caso el name no se cambia<br>
 	 * @param lastName es el apellido actualizado, puede estar vacio en ese caso el lastName no se cambia<br>
 	 * @param gender es el genero actualizado, puede estar vacio en ese el gender no se cambia<br>
@@ -178,15 +280,15 @@ public class DataBase {
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
 
-	public void updatePerson(String code, String name, String lastName, char gender, double height, String nationality,
+
+	public void updatePerson(String code,String name, String lastName, char gender, int height, String nationality,
 			LocalDate birthday, Image photo) {
-		
+		deletePerson();
+		Person p = new Person(code,name,lastName,gender,height,nationality,birthday);
+		addPerson(p);
 	}
 	/**
 	 * <b>Description:</b> elimina una persona en las 4 bases de datos<br>
-	 * @param id es el id que se usa para eliminar en el arbol de id<br>
-	 * @param n es el nombre que se usa para eliminar en el arbol de name, tambien es la primera parte para eliminar el arbol de name y lastName<br>
-	 * @param l es ek apellido que se usa para eliminar en el arbol de lastName, tambien es la segunda parte para eliminar el arbol de name y lastName<br>
 	 */
 
 	public void deletePerson() {
@@ -310,8 +412,8 @@ public class DataBase {
 		}
 	}
 	
-	public int getRectangleWidth() {
-		return progress/100 * 540;
+	public double getRectangleWidth() {
+		return progress * 540;
 	}
 	
 	public void saveData() {
@@ -327,6 +429,8 @@ public class DataBase {
 	}
 
 	public void addPopulation() {
-		
+		for(int i = 0;i < autoGen.length;i++){
+			addPerson(autoGen[i]);
+		}
 	}
 }
