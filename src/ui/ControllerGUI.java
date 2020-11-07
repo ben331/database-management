@@ -235,7 +235,7 @@ public class ControllerGUI {
         	
         	Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Operation successfully");
-			alert.setContentText("Person: "+name+ lastname+ " was added correctly");
+			alert.setContentText("Person: "+name+ " "+lastname+ " was added correctly");
 			alert.showAndWait();
 			
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("database-manager.fxml"));
