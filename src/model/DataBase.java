@@ -108,9 +108,11 @@ public class DataBase {
 	 */
 	public Person searchPerson(String k, char c,int i) {
 		
+		Person personR ;
 		
+		personR = treeN.searchE(k);
 		
-		return null;
+		return personR;
 	}
 	/**
 	 * <Description:</b> genera una lista de sugerencia con la busqueda de todos los que cumplen con un parametro de busqueda<br>
