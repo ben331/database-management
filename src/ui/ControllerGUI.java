@@ -428,7 +428,7 @@ public class ControllerGUI {
             public TableCell<Person, Void> call(final TableColumn<Person, Void> param) {
                 final TableCell<Person, Void> cell = new TableCell<Person, Void>() {
 
-                    private final Button btn = new Button("Action");
+                    private final Button btn = new Button("Edit");
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
