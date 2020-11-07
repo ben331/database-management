@@ -232,6 +232,16 @@ public class ControllerGUI {
         	}
         	
         	database.addPerson(name, lastname, gender, height, nationality, birthdate);
+        	
+        	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Operation successfully");
+			alert.setContentText("Person: "+name+ " lastname"+ " was added correctly");
+			alert.showAndWait();
+			
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("generate-data-scene.fxml"));
+			loader.setController(this);
+			Parent login = loader.load();
+			mainPane.setCenter(login);
     	}catch(NumberFormatException e) {
     		Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warnign");
