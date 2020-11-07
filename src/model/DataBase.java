@@ -44,7 +44,7 @@ public class DataBase {
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
 	 * que contienen la informacion (con bufferedReader)<br>
-	 * @param amount es la cantidad de personas que se crean<br>
+	 * @param amount es la cantidad de personas que se crean, the maximun size is 1 million<br>
 	 */
 	public void generateRegister(int amount) throws IOException {
 		BufferedReader brFNames = new BufferedReader(new FileReader(FEMALE_NAMES));
