@@ -18,8 +18,8 @@
          <children>
             <Button mnemonicParsing="false" onAction="#search" text="Search" />
             <Label text="Search field" />
-            <TextField fx:id="txtSearch" />
-            <ListView fx:id="listViewCoincidences" prefHeight="413.0" prefWidth="265.0" />
+            <TextField fx:id="txtSearch" onInputMethodTextChanged="#showCoincidences" />
+            <ListView fx:id="listViewCoincidences" fixedCellSize="100.0" onMouseClicked="#selectPerson" prefHeight="413.0" prefWidth="265.0" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

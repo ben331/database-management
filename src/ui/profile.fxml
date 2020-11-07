@@ -12,10 +12,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="620.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField fx:id="txtName" layoutX="196.0" layoutY="38.0" />
-      <TextField fx:id="txtLastname" layoutX="196.0" layoutY="82.0" />
-      <Label layoutX="127.0" layoutY="43.0" text="Name" />
-      <Label layoutX="110.0" layoutY="87.0" text="Lastname" />
+      <TextField fx:id="txtName" layoutX="196.0" layoutY="64.0" />
+      <TextField fx:id="txtLastname" layoutX="196.0" layoutY="98.0" />
+      <Label layoutX="133.0" layoutY="69.0" text="Name" />
+      <Label layoutX="111.0" layoutY="103.0" text="Lastname" />
       <Label layoutX="122.0" layoutY="138.0" text="Gender" />
       <RadioButton fx:id="rbMale" layoutX="196.0" layoutY="138.0" mnemonicParsing="false" selected="true" text="Male">
          <toggleGroup>
@@ -35,5 +35,7 @@
       <Line endX="-100.0" endY="176.0" layoutX="493.0" layoutY="34.0" startX="-100.0" />
       <Line endX="71.0" layoutX="504.0" layoutY="221.0" startX="-100.0" />
       <Button layoutX="305.0" layoutY="349.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+      <Label layoutX="133.0" layoutY="34.0" text="Code" />
+      <TextField fx:id="txtCode" editable="false" layoutX="196.0" layoutY="29.0" />
    </children>
 </AnchorPane>
