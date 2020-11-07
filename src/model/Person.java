@@ -6,7 +6,9 @@ import java.util.Date;
 import javafx.scene.image.Image;
 
 public class Person {
-	
+	public static char MALE = 'M';
+	public static char FEMALE = 'F';
+
 	private String code;
 	private String name;
 	private String lastName;
