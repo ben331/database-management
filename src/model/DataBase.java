@@ -1,46 +1,73 @@
 package model;
-import java.awt.Image;
+
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
+import java.time.LocalDate;
+import java.util.Stack;
 
 import datastructure.AVL;
+import datastructure.Node;
+import javafx.scene.image.Image;
 
 import static java.lang.Double.parseDouble;
 
 public class DataBase {
-	public static char TREE_NAME = 'N';
-	public static char TREE_LASTNAME = 'L';
-	public static char TREE_NAME_AND_LASTNAME = 'C';
-	public static char TREE_ID = 'I';
-	public static String FEMALE_NAMES = "/data/FemaleNames.txt";
-	public static String LAST_NAMES = "/data/LastNames";
-	public static String MALE_NAMES = "/data/MaleNames";
-	public static String CONTRY_POPULATION = "/data/PopulationOfCountries";
-	public static String AGE_PROPORTION = "/data/AgeProportion.txt";
-	public static int AGES = 5;
-	public static int COUNTRIES = 35;
+	public static final char TREE_NAME = 'N';
+	public static final char TREE_LASTNAME = 'L';
+	public static final char TREE_FULLNAME = 'F';
+	public static final char TREE_CODE = 'C';
+	public static final String FEMALE_NAMES = "/data/FemaleNames.txt";
+	public static final String LAST_NAMES = "/data/LastNames";
+	public static final String MALE_NAMES = "/data/MaleNames";
+	public static final String CONTRY_POPULATION = "/data/PopulationOfCountries";
+	public static final String AGE_PROPORTION = "/data/AgeProportion.txt";
+	public static final int AGES = 5;
+	public static final int COUNTRIES = 35;
 	public static int DIGITS_CODE = 10;
 	
-	private AVL<String,Person> treeN;
-	private AVL<String,Person> treeL;
-	private AVL<String,Person> treeC;
-	private AVL<String,Person> treeI;
+	private AVL<String,Person> treeName;
+	private AVL<String,Person> treeLastname;
+	private AVL<String,Person> treeFullName;
+	private AVL<String,Person> treeCode;
+	
 	private int currentCode;
+	private int progress;
+	private ArrayList<Person> coincidences;
+	private ArrayList<String> coincidentsKeys;
+	private Person selectedPerson;
 	
 	public DataBase() {
 		currentCode = 1;
 		
-		treeN = new AVL<>();
-		treeL = new AVL<>();
-		treeC = new AVL<>();
-		treeI = new AVL<>();
+		treeName = new AVL<>();
+		treeLastname = new AVL<>();
+		treeFullName = new AVL<>();
+		treeCode = new AVL<>();
 		
+		coincidences = new ArrayList<Person>();
+		coincidentsKeys = new ArrayList<>();
+		progress=0;
 	}
+	
+	public ArrayList<Person> getCoincidences(){
+		return coincidences;
+	}
+	
+	public int getProgress() {
+		return progress;
+	}
+	
+	public Person getSelectedPerson() {
+		return selectedPerson;
+	}
+	
+	public void setSelectedPerson(Person person) {
+		this.selectedPerson = person;
+	}
+	
 	/**
 	 * <b>Description:</b> genera una cantidad determinada de personas a partir de archivos de texto
 	 * que contienen la informacion (con bufferedReader)<br>
@@ -102,10 +129,8 @@ public class DataBase {
 					day = (int)Math.floor(Math.random()*31+1);
 				}
 			}
-			Date birth = new Date(day,month,year); //check Date constructor
-			//falta la estatura 
+			LocalDate birth = LocalDate.of(day,month,year); //check Date constructor
 		}
-
 	}
 	/**
 	 * <b>Description:</b> agrega una nueva persona a las 4 bases de datos<br>
@@ -119,8 +144,8 @@ public class DataBase {
 	 * @param photo es la foto de la persona, es un objeto Image ya manejado<br>
 	 * <b>Output:</b> una persona que se agrega a las 4 bases de datos<br>
 	 */
-	public void addPerson(String name, String lastName, char gender, double height, String nationality,
-			Date birthday, Image photo) {
+	public void addPerson(String name, String lastName, char gender, int height, String nationality,
+			LocalDate birthday) {
 		
 		String code = "";
 		int numberDigits = (currentCode+"").length();
@@ -132,10 +157,10 @@ public class DataBase {
 		
 		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday);
 		
-		treeN.insertE(code, newP);
-		treeL.insertE(code, newP);
-		treeC.insertE(code, newP);
-		treeI.insertE(code, newP);
+		treeName.insertE(name+code, newP);
+		treeLastname.insertE(lastName+code, newP);
+		treeFullName.insertE(name+lastName+code, newP);
+		treeCode.insertE(code, newP);
 		
 		
 	}
@@ -153,8 +178,8 @@ public class DataBase {
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
 
-	public void updatePerson(String searchId, String searchName,String searchLastName,String name, String lastName, char gender, double height, String nationality,
-			Date birthday, Image photo) {
+	public void updatePerson(String searchId, String name, String lastName, char gender, double height, String nationality,
+			LocalDate birthday, Image photo) {
 		
 	}
 	/**
@@ -163,11 +188,22 @@ public class DataBase {
 	 * @param n es el nombre que se usa para eliminar en el arbol de name, tambien es la primera parte para eliminar el arbol de name y lastName<br>
 	 * @param l es ek apellido que se usa para eliminar en el arbol de lastName, tambien es la segunda parte para eliminar el arbol de name y lastName<br>
 	 */
-	public void deletePerson(String id,String n, String l) {
+
+	public void deletePerson() {
 		
-		
+		String code = selectedPerson.getCode();
+		String nameKey = selectedPerson.getName()+code;
+		String lastnameKey = selectedPerson.getLastName()+code;
+		String fullNameKey = nameKey+lastnameKey+code;
+		treeName.removeE(nameKey);
+		treeLastname.removeE(lastnameKey);
+		treeFullName.removeE(fullNameKey);
+		treeCode.removeE(code);
 		
 	}
+	
+	
+	
 	/**
 	 *<b>Description:</b> busca a una persona en la base de datos seleccionada<br>
 	 * @param k es la clave que se usa para buscar en una base de datos<br>
@@ -176,27 +212,128 @@ public class DataBase {
 	 */
 	public Person searchPerson(String k, char c) {
 		
+		Person personR ;
+
+		if(c == DataBase.TREE_NAME) {
+			personR = treeName.searchE(k);
+		}else if(c == DataBase.TREE_LASTNAME) {
+			personR = treeLastname.searchE(k);
+		}else if(c == DataBase.TREE_FULLNAME) {
+			personR = treeFullName.searchE(k);
+		}else {
+			personR = treeCode.searchE(k);
+		}
 		
+		return personR;
 		
-		return null;
 	}
+	
 	/**
 	 * <Description:</b> genera una lista de sugerencia con la busqueda de todos los que cumplen con un parametro de busqueda<br>
 	 * @param k es la clave que se usa para buscar en una base de datos<br>
 	 * @param c es en cual de los 4 arboles se va a realizar la busqueda<br>
 	 * @return es una lista con todos los que cumplen con el parametro de busqueda<br>
 	 */
-	public  ArrayList<Person> listSuggestions(String k, char c){
-		boolean noMore = false;
-		ArrayList<Person> list = new ArrayList<>();
-		for(int i = 0;i < 21&&!noMore;i++){
-			Person s = searchPerson(k,c);
-			if(s!=null){
-				list.add(s);
-			}else{
-				noMore = true;
+	
+
+	public void searchCoincidences(String text, char c){
+		
+		boolean found=false;
+		int letters = text.length();
+		String key;
+		Node<String, Person> current;
+
+		AVL<String, Person> tree;
+
+		
+		if(c==DataBase.TREE_CODE) {
+			tree = treeCode;
+		}else if(c==DataBase.TREE_LASTNAME) {
+			tree = treeName;
+		}else if(c==DataBase.TREE_FULLNAME) {
+			tree = treeLastname;
+		}else {
+			tree = treeFullName;
+		}
+		
+		current = tree.getRoot();
+		
+		while(current!=null && !found) {
+			key = current.getKey().substring(0,letters-1);
+			if(text.compareTo(key)<0) {
+				current = current.getLeft();
+			}else if(text.compareTo(key)>0) {
+				current = current.getRight();
+			}else {
+				searchCoincidences(current, text);
 			}
 		}
-		return list;
+	}
+	
+	private void searchCoincidences(Node<String, Person> current, String text) {
+		boolean thereAreMore = true;
+		Stack<Node<String,Person>> points = new Stack<>();
+		int letters = text.length();
+		String key;
+		
+		coincidences.add(current.getValue());
+		points.push(current);
+		
+		while(!points.isEmpty() && coincidences.size()<100) {
+			current = points.pop();
+			thereAreMore = true;
+			while((current!=null && thereAreMore) && coincidences.size()<100) {
+				if(current.getLeft()!=null) {
+					key = current.getLeft().getKey().substring(0, letters);
+					if(key.equals(text)) {
+						points.push(current.getLeft());
+						coincidences.add(current.getLeft().getValue());
+						coincidentsKeys.add(current.getLeft().getKey());
+						current = current.getLeft();
+					}else {
+						thereAreMore=false;
+					}
+				}else {
+					thereAreMore = false;
+				}
+			}
+			
+			thereAreMore = true;
+			while((current!=null && thereAreMore) && coincidences.size()<100) {
+				if(current.getLeft()!=null) {
+					key = current.getRight().getKey().substring(0, letters);
+					if(key.equals(text)) {
+						points.push(current.getRight());
+						coincidences.add(current.getRight().getValue());
+						coincidentsKeys.add(current.getRight().getKey());
+						current = current.getRight();
+					}else {
+						thereAreMore=false;
+					}
+				}else {
+					thereAreMore = false;
+				}
+			}
+		}
+	}
+	
+	public int getRectangleWidth() {
+		return progress/100 * 540;
+	}
+	
+	public void saveData() {
+		
+	}
+
+	public ArrayList<String> getCoincidentsKeys() {
+		return coincidentsKeys;
+	}
+
+	public void selectPerson(int indexSelected) {
+		selectedPerson = coincidences.get(indexSelected);
+	}
+
+	public void addPopulation() {
+		
 	}
 }

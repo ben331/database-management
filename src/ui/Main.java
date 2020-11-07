@@ -21,15 +21,13 @@ public class Main extends Application{
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
+	public void start(Stage primaryStage) throws Exception {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("database-manager.fxml"));
 		loader.setController(controllerGUI);
-		
 		Parent root = loader.load();
-		
 		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setTitle("Data Base Manager");
-		stage.show();
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Control Bank System");
+		primaryStage.show();
 	}
 }
