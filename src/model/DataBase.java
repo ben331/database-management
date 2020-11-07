@@ -10,6 +10,12 @@ public class DataBase {
 	public static char TREE_LASTNAME = 'L';
 	public static char TREE_NAME_AND_LASTNAME = 'C';
 	public static char TREE_ID = 'I';
+
+	public static String FEMALE_NAMES = "\data\FemaleNames.txt";
+	public static String LAST_NAMES = "\data\LastNames";
+	public static String MALE_NAMES = "\data\MaleNames";
+	public static String CONTRY_POPULATION = "PopulationOfCountries";
+
 	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeN;
@@ -98,13 +104,13 @@ public class DataBase {
 	public void deletePerson(String id, String n, String l) {
 		
 		Person person = searchPerson(id, 'N');
-		treeN.removeE(key);
+		treeN.removeE(person.getName());
 		person = searchPerson(id, 'L');
-		treeN.removeE(key);
+		treeN.removeE(person.getLastName());
 		person = searchPerson(id, 'C');
-		treeN.removeE(key);
+		treeN.removeE(person.getCode());
 		person = searchPerson(id, 'I');
-		treeN.removeE(key);
+		treeN.removeE(person.getCode());
 		
 	}
 	
@@ -142,6 +148,16 @@ public class DataBase {
 	 * @return es una lista con todos los que cumplen con el parametro de busqueda<br>
 	 */
 	public  ArrayList<Person> listSuggestions(String k, char c){
-		return null;
+		boolean noMore = false;
+		ArrayList<Person> list = new ArrayList<>();
+		for(int i = 0;i < 21&&!noMore;i++){
+			Person s = searchPerson(k,c);
+			if(s!=null){
+				list.add(s);
+			}else{
+				noMore = true;
+			}
+		}
+		return list;
 	}
 }
