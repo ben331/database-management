@@ -1,19 +1,29 @@
 package model;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import datastructure.AVL;
+
+import static java.lang.Double.parseDouble;
 
 public class DataBase {
 	public static char TREE_NAME = 'N';
 	public static char TREE_LASTNAME = 'L';
 	public static char TREE_NAME_AND_LASTNAME = 'C';
 	public static char TREE_ID = 'I';
-	public static String FEMALE_NAMES = "\data\FemaleNames.txt";
-	public static String LAST_NAMES = "\data\LastNames";
-	public static String MALE_NAMES = "\data\MaleNames";
-	public static String CONTRY_POPULATION = "PopulationOfCountries";
+	public static String FEMALE_NAMES = "/data/FemaleNames.txt";
+	public static String LAST_NAMES = "/data/LastNames";
+	public static String MALE_NAMES = "/data/MaleNames";
+	public static String CONTRY_POPULATION = "/data/PopulationOfCountries";
+	public static String AGE_PROPORTION = "/data/AgeProportion.txt";
+	public static int AGES = 5;
+	public static int COUNTRIES = 35;
 	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeN;
@@ -36,10 +46,66 @@ public class DataBase {
 	 * que contienen la informacion (con bufferedReader)<br>
 	 * @param amount es la cantidad de personas que se crean<br>
 	 */
-	public void generateRegister(int amount) {
-		
-		
-		
+	public void generateRegister(int amount) throws IOException {
+		BufferedReader brFNames = new BufferedReader(new FileReader(FEMALE_NAMES));
+		BufferedReader brMNames = new BufferedReader(new FileReader(MALE_NAMES));
+		BufferedReader brLastNames = new BufferedReader(new FileReader(LAST_NAMES));
+		BufferedReader brCountry = new BufferedReader(new FileReader(CONTRY_POPULATION));
+		BufferedReader brAgeRate = new BufferedReader(new FileReader(AGE_PROPORTION));
+		String[] countries = new String[COUNTRIES];
+		int[] countriesAmount = new int[COUNTRIES];
+		int[] minAge = new int[AGES];
+		int[] maxAge = new int[AGES];
+		int[] amountAge = new int[AGES];
+		for(int i = 0;i < COUNTRIES;i++) {
+			String[] country = brCountry.readLine().split(",");
+			countries[i] = country[0];
+			countriesAmount[i] = (int) Math.floor(amount * parseDouble(country[1]));
+		}
+		for(int i = 0;i < AGES;i++){
+			String[] age = brAgeRate.readLine().split(" ");
+			minAge[i] = Integer.parseInt(age[0]);
+			maxAge[i] = Integer.parseInt(age[1]);
+			amountAge[i] = (int) Math.floor(amount* parseDouble(age[2]));
+		}
+		int maleDivFemale = amount/2;
+		for(int i = 0;i < maleDivFemale;i++){ //male
+			String name = brMNames.readLine();
+			String lastName = brLastNames.readLine();
+			char gender = Person.MALE;
+			int randCountry = (int) Math.floor(Math.random()*COUNTRIES);
+			while(countriesAmount[randCountry]==0){
+				randCountry = (int) Math.floor(Math.random()*COUNTRIES);
+			}
+			String country = countries[randCountry];
+			countriesAmount[randCountry]-=1;
+			int randAge = (int)Math.floor(Math.random()*AGES);
+			while(amountAge[randAge]==0){
+				randAge = (int)Math.floor(Math.random()*AGES);
+			}
+			int age = (int)Math.floor(Math.random()*(maxAge[randAge]-minAge[randAge])+minAge[randAge]);
+			int year = 2020 - age;
+			int month = (int)Math.floor(Math.random()*12+1);
+			int day = 0;
+			if(month==2){
+				day = (int)Math.floor(Math.random()*27+1);
+			}else if(month%2==0){
+				if(month>7){
+					day = (int)Math.floor(Math.random()*31+1);
+				}else{
+					day = (int)Math.floor(Math.random()*30+1);
+				}
+			}else{
+				if(month>7){
+					day = (int)Math.floor(Math.random()*30+1);
+				}else{
+					day = (int)Math.floor(Math.random()*31+1);
+				}
+			}
+			Date birth = new Date(day,month,year); //check Date constructor
+			//falta la estatura 
+		}
+
 	}
 	/**
 	 * <b>Description:</b> agrega una nueva persona a las 4 bases de datos<br>
@@ -106,10 +172,9 @@ public class DataBase {
 	 *<b>Description:</b> busca a una persona en la base de datos seleccionada<br>
 	 * @param k es la clave que se usa para buscar en una base de datos<br>
 	 * @param c es en cual de los 4 arboles se va a realizar la busqueda<br>
-	 * @param i es la cantidad de busquedas que debe realizar para generar las sugerencias<br>
 	 * @return es la persona que encontro que cumple con el parametro de k<br>
 	 */
-	public Person searchPerson(String k, char c,int i) {
+	public Person searchPerson(String k, char c) {
 		
 		
 		
