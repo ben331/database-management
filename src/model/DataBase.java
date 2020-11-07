@@ -19,11 +19,11 @@ public class DataBase {
 	public static final char TREE_LASTNAME = 'L';
 	public static final char TREE_FULLNAME = 'F';
 	public static final char TREE_CODE = 'C';
-	public static final String FEMALE_NAMES = "/data/FemaleNames.txt";
-	public static final String LAST_NAMES = "/data/LastNames";
-	public static final String MALE_NAMES = "/data/MaleNames";
-	public static final String CONTRY_POPULATION = "/data/PopulationOfCountries";
-	public static final String AGE_PROPORTION = "/data/AgeProportion.txt";
+	public static final String FEMALE_NAMES = "data/FemaleNames.txt";
+	public static final String LAST_NAMES = "data/LastNames";
+	public static final String MALE_NAMES = "data/MaleNames";
+	public static final String CONTRY_POPULATION = "data/PopulationOfCountries";
+	public static final String AGE_PROPORTION = "data/AgeProportion.txt";
 	public static final int AGES = 5;
 	public static final int COUNTRIES = 35;
 	public static int DIGITS_CODE = 10;
@@ -34,10 +34,11 @@ public class DataBase {
 	private AVL<String,Person> treeCode;
 	
 	private int currentCode;
-	private int progress;
+	private double progress;
 	private ArrayList<Person> coincidences;
 	private ArrayList<String> coincidentsKeys;
 	private Person selectedPerson;
+	private Person[] autoGen;
 	
 	public DataBase() {
 		currentCode = 1;
@@ -56,7 +57,7 @@ public class DataBase {
 		return coincidences;
 	}
 	
-	public int getProgress() {
+	public double getProgress() {
 		return progress;
 	}
 	
@@ -74,6 +75,7 @@ public class DataBase {
 	 * @param amount es la cantidad de personas que se crean, the maximun size is 1 million<br>
 	 */
 	public void generateRegister(int amount) throws IOException {
+		autoGen = new Person[amount];
 		BufferedReader brFNames = new BufferedReader(new FileReader(FEMALE_NAMES));
 		BufferedReader brMNames = new BufferedReader(new FileReader(MALE_NAMES));
 		BufferedReader brLastNames = new BufferedReader(new FileReader(LAST_NAMES));
@@ -151,8 +153,17 @@ public class DataBase {
 			}else{
 				 heigth = (int)Math.floor(Math.random()*5+150);
 			}
-			addPerson(name,lastName,gender,heigth/100,country,birth);
-		}for(int i = 0;i < maleDivFemale;i++){ //female
+			String code = "";
+			int numberDigits = (currentCode+"").length();
+
+			for(int j=numberDigits; j<DIGITS_CODE;j++) {
+				code +="0";
+			}
+			code += numberDigits;
+			currentCode++;
+			autoGen[i] = new Person(code,name,lastName,gender,heigth,country,birth);
+			progress = i/amount;
+		}for(int i = maleDivFemale;i < amount;i++){ //female
 			String name = brFNames.readLine();
 			if(name == null){
 				brFNames.reset();
@@ -202,7 +213,16 @@ public class DataBase {
 			}else{
 				heigth = (int)Math.floor(Math.random()*5+150);
 			}
-			addPerson(name,lastName,gender,heigth/100,country,birth);
+			String code = "";
+			int numberDigits = (currentCode+"").length();
+
+			for(int j=numberDigits; j<DIGITS_CODE;j++) {
+				code +="0";
+			}
+			code += numberDigits;
+			currentCode++;
+			autoGen[i] = new Person(code,name,lastName,gender,heigth,country,birth);
+			progress = i/amount;
 		}
 	}
 	public void addPerson(Person p){
@@ -232,7 +252,7 @@ public class DataBase {
 			code +="0";
 		}
 		code += numberDigits; 
-		
+		currentCode++;
 		Person newP = new Person(code, name, lastName, gender, height, nationality, birthday);
 		
 		treeName.insertE(name+code, newP);
@@ -244,9 +264,7 @@ public class DataBase {
 	}
 	/**
 	 *<b>Description:</b> actualiza la informacion de una persona en las 4 bases de datos<br>
-	 * @param searchId es el id con el que realiza la busqueda en el arbol de id<br>
-	 * param searchName es el nombre con el que busca en el arbol de name<br>
-	 * param searchLastName es el apellido con el que busca en el arbol de lastName<br>
+	 * @param code es el codigo de busqueda,no puede estar vacio<br>
 	 * @param name es el nombre actualizado, puede estar vacio en ese caso el name no se cambia<br>
 	 * @param lastName es el apellido actualizado, puede estar vacio en ese caso el lastName no se cambia<br>
 	 * @param gender es el genero actualizado, puede estar vacio en ese el gender no se cambia<br>
@@ -256,9 +274,11 @@ public class DataBase {
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
 
-	public void updatePerson(String searchId, String name, String lastName, char gender, double height, String nationality,
+	public void updatePerson(String code,String name, String lastName, char gender, int height, String nationality,
 			LocalDate birthday, Image photo) {
-		
+		deletePerson();
+		Person p = new Person(code,name,lastName,gender,height,nationality,birthday);
+		addPerson(p);
 	}
 	/**
 	 * <b>Description:</b> elimina una persona en las 4 bases de datos<br>
@@ -392,8 +412,8 @@ public class DataBase {
 		}
 	}
 	
-	public int getRectangleWidth() {
-		return progress/100 * 540;
+	public double getRectangleWidth() {
+		return progress * 540;
 	}
 	
 	public void saveData() {
@@ -409,6 +429,8 @@ public class DataBase {
 	}
 
 	public void addPopulation() {
-		
+		for(int i = 0;i < autoGen.length;i++){
+			addPerson(autoGen[i]);
+		}
 	}
 }
