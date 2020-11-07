@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="729.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="searchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="729.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="460.0" prefWidth="225.0" BorderPane.alignment="TOP_CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#search" text="Search" />
             <Label text="Search field" />
             <TextField fx:id="txtSearch" />
-            <ListView prefHeight="413.0" prefWidth="265.0" />
+            <ListView fx:id="listViewCoincidences" prefHeight="413.0" prefWidth="265.0" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -36,18 +36,18 @@
             </Label>
             <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="116.0" spacing="5.0">
                <children>
-                  <RadioButton mnemonicParsing="false" selected="true" text="By name">
+                  <RadioButton fx:id="rbName" mnemonicParsing="false" selected="true" text="By name">
                      <toggleGroup>
                         <ToggleGroup fx:id="criteria" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="By lastname" toggleGroup="$criteria" />
+                  <RadioButton fx:id="rbLastname" mnemonicParsing="false" text="By lastname" toggleGroup="$criteria" />
                </children>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="115.0" spacing="5.0">
                <children>
-                  <RadioButton mnemonicParsing="false" text="By full name" toggleGroup="$criteria" />
-                  <RadioButton mnemonicParsing="false" text="By code" toggleGroup="$criteria" />
+                  <RadioButton fx:id="rbFullName" mnemonicParsing="false" text="By full name" toggleGroup="$criteria" />
+                  <RadioButton fx:id="rbCode" mnemonicParsing="false" text="By code" toggleGroup="$criteria" />
                </children>
             </VBox>
          </children>

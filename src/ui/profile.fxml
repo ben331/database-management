@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="620.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="txtName" layoutX="196.0" layoutY="38.0" />
       <TextField fx:id="txtLastname" layoutX="196.0" layoutY="82.0" />
@@ -29,11 +29,11 @@
       <TextField fx:id="txtNationality" layoutX="196.0" layoutY="251.0" />
       <DatePicker fx:id="birthdate" layoutX="196.0" layoutY="298.0" />
       <Label layoutX="112.0" layoutY="303.0" text="Birthdate" />
-      <Button fx:id="btAdd" layoutX="146.0" layoutY="349.0" mnemonicParsing="false" text="Save" />
-      <Button fx:id="btCancel" layoutX="217.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="146.0" layoutY="349.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Button layoutX="217.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <ImageView fx:id="imgPhoto" fitHeight="171.0" fitWidth="172.0" layoutX="404.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
       <Line endX="-100.0" endY="176.0" layoutX="493.0" layoutY="34.0" startX="-100.0" />
       <Line endX="71.0" layoutX="504.0" layoutY="221.0" startX="-100.0" />
-      <Button fx:id="btCancel1" layoutX="305.0" layoutY="349.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="305.0" layoutY="349.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
    </children>
 </AnchorPane>

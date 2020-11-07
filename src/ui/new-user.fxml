@@ -8,8 +8,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="496.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="txtName" layoutX="196.0" layoutY="38.0" />
       <TextField fx:id="txtLastname" layoutX="196.0" layoutY="82.0" />
@@ -28,7 +27,7 @@
       <TextField fx:id="txtNationality" layoutX="196.0" layoutY="251.0" />
       <DatePicker fx:id="birthdate" layoutX="196.0" layoutY="298.0" />
       <Label layoutX="112.0" layoutY="303.0" text="Birthdate" />
-      <Button fx:id="btAdd" layoutX="202.0" layoutY="349.0" mnemonicParsing="false" text="Add" />
-      <Button fx:id="btCancel" layoutX="273.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="202.0" layoutY="349.0" mnemonicParsing="false" onAction="#add" text="Add" />
+      <Button layoutX="273.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>
 </AnchorPane>
