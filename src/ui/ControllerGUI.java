@@ -1,6 +1,5 @@
 package ui;
 
-import model.DataBase;
 import model.*;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -238,7 +237,7 @@ public class ControllerGUI {
 			alert.setContentText("Person: "+name+ " "+lastname+ " was added correctly");
 			alert.showAndWait();
 			
-	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("database-manager.fxml"));
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("search.fxml"));
 			loader.setController(this);
 			Parent login = loader.load();
 			mainPane.setCenter(login);
@@ -363,7 +362,7 @@ public class ControllerGUI {
     			database.searchCoincidences(text, c);
     			
     			ArrayList<Person> coincidences = database.getCoincidences();
-        		if(coincidences.size()<=20) {
+        		if(coincidences.size()>20) {
         			showListView();
         		}else {
         			
@@ -401,11 +400,49 @@ public class ControllerGUI {
     
     @FXML
     void search(ActionEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("profile.fxml"));
-		loader.setController(this);
-		Parent login = loader.load();
-		mainPane.setCenter(login);
-		initializeFields();
+    	
+    	char c;
+    	String text = txtSearch.getText();
+    	if(rbCode.isSelected()) {
+    		c = DataBase.TREE_CODE;
+    	}else if(rbName.isSelected()) {
+    		c = DataBase.TREE_NAME;
+    	}else if(rbLastname.isSelected()) {
+    		c = DataBase.TREE_LASTNAME;
+    	}else {
+    		c = DataBase.TREE_FULLNAME;
+    	}
+    	
+    	//Heavy Algorithm
+    	new Thread() {
+    		@Override
+    		public void run() {
+    			database.searchCoincidences(text, c);
+    			
+    			ArrayList<Person> coincidences = database.getCoincidences();
+        		if(coincidences.size()>20) {
+        			showListView();
+        		}else {
+        			
+        			Platform.runLater( new Thread() {
+        	   			public void run() {
+        	   				FXMLLoader loader = new FXMLLoader(getClass().getResource("table.fxml"));
+                			loader.setController(this);
+                			Parent login;
+        					try {
+        						login = loader.load();
+        						searchPane.setCenter(login);
+        						initializeTableResults();
+        					} catch (IOException e) {
+        						e.printStackTrace();
+        					}
+       	    			}
+            		});
+        		}
+   	    	}
+    	}.start();
+    	
+    	
     }
     
     //Table Scene--------------------------------------------------------------------------
