@@ -223,6 +223,12 @@ public class DataBase {
 			currentCode++;
 			autoGen[i] = new Person(code,name,lastName,gender,heigth,country,birth);
 			progress = i/amount;
+			
+			brFNames.close();
+			brMNames.close();
+			brLastNames.close();
+			brCountry.close();
+			brAgeRate.close();
 		}
 	}
 	public void addPerson(Person p){
@@ -274,6 +280,7 @@ public class DataBase {
 	 * @param photo es la foto actualizada, puede estar vacia en ese caso no se cambia<br>
 	 */
 
+
 	public void updatePerson(String code,String name, String lastName, char gender, int height, String nationality,
 			LocalDate birthday, Image photo) {
 		deletePerson();
@@ -322,13 +329,6 @@ public class DataBase {
 		return personR;
 		
 	}
-	
-	/**
-	 * <Description:</b> genera una lista de sugerencia con la busqueda de todos los que cumplen con un parametro de busqueda<br>
-	 * @param text es la clave que se usa para buscar en una base de datos<br>
-	 * @param c es en cual de los 4 arboles se va a realizar la busqueda<br>
-	 * @return es una lista con todos los que cumplen con el parametro de busqueda<br>
-	 */
 	
 
 	public void searchCoincidences(String text, char c){
