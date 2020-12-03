@@ -5,8 +5,9 @@
 
 <TableView fx:id="table" prefHeight="476.0" prefWidth="481.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn fx:id="columnCode" prefWidth="109.0" text="Code" />
-      <TableColumn fx:id="columnName" prefWidth="203.0" text="Name" />
-      <TableColumn fx:id="columnEdit" prefWidth="171.0" text="Edit" />
+      <TableColumn fx:id="columnCode" prefWidth="116.0" text="Code" />
+      <TableColumn fx:id="columnName" prefWidth="156.0" text="Name" />
+      <TableColumn fx:id="columnLastname" prefWidth="142.0" text="LastName" />
+      <TableColumn fx:id="columnEdit" prefWidth="65.0" text="Edit" />
    </columns>
 </TableView>

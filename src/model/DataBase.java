@@ -20,9 +20,9 @@ public class DataBase {
 	public static final char TREE_FULLNAME = 'F';
 	public static final char TREE_CODE = 'C';
 	public static final String FEMALE_NAMES = "data/FemaleNames.txt";
-	public static final String LAST_NAMES = "data/LastNames";
-	public static final String MALE_NAMES = "data/MaleNames";
-	public static final String CONTRY_POPULATION = "data/PopulationOfCountries";
+	public static final String LAST_NAMES = "data/LastNames.txt";
+	public static final String MALE_NAMES = "data/MaleNames.txt";
+	public static final String CONTRY_POPULATION = "data/PopulationOfCountries.txt";
 	public static final String AGE_PROPORTION = "data/AgeProportion.txt";
 	public static final int AGES = 5;
 	public static final int COUNTRIES = 35;
@@ -333,6 +333,9 @@ public class DataBase {
 
 	public void searchCoincidences(String text, char c){
 		
+		coincidences.clear();
+		coincidentsKeys.clear();
+		
 		boolean found=false;
 		int letters = text.length();
 		String key;
@@ -343,9 +346,9 @@ public class DataBase {
 		
 		if(c==DataBase.TREE_CODE) {
 			tree = treeCode;
-		}else if(c==DataBase.TREE_LASTNAME) {
+		}else if(c==DataBase.TREE_NAME) {
 			tree = treeName;
-		}else if(c==DataBase.TREE_FULLNAME) {
+		}else if(c==DataBase.TREE_LASTNAME) {
 			tree = treeLastname;
 		}else {
 			tree = treeFullName;
@@ -386,6 +389,7 @@ public class DataBase {
 						coincidentsKeys.add(current.getLeft().getKey());
 						current = current.getLeft();
 					}else {
+						points.push(current.getLeft());
 						thereAreMore=false;
 					}
 				}else {
@@ -403,6 +407,7 @@ public class DataBase {
 						coincidentsKeys.add(current.getRight().getKey());
 						current = current.getRight();
 					}else {
+						points.push(current.getRight());
 						thereAreMore=false;
 					}
 				}else {
