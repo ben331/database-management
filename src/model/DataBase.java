@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import static java.lang.Double.parseDouble;
 
 public class DataBase {
+
 	public static final char TREE_NAME = 'N';
 	public static final char TREE_LASTNAME = 'L';
 	public static final char TREE_FULLNAME = 'F';
@@ -26,6 +27,7 @@ public class DataBase {
 	public static final String AGE_PROPORTION = "data/AgeProportion.txt";
 	public static final int AGES = 5;
 	public static final int COUNTRIES = 35;
+
 	public static int DIGITS_CODE = 10;
 	
 	private AVL<String,Person> treeName;
@@ -283,9 +285,11 @@ public class DataBase {
 
 	public void updatePerson(String code,String name, String lastName, char gender, int height, String nationality,
 			LocalDate birthday, Image photo) {
+
 		deletePerson();
 		Person p = new Person(code,name,lastName,gender,height,nationality,birthday);
 		addPerson(p);
+
 	}
 	/**
 	 * <b>Description:</b> elimina una persona en las 4 bases de datos<br>
@@ -293,6 +297,7 @@ public class DataBase {
 
 	public void deletePerson() {
 		
+
 		String code = selectedPerson.getCode();
 		String nameKey = selectedPerson.getName()+code;
 		String lastnameKey = selectedPerson.getLastName()+code;
@@ -301,6 +306,7 @@ public class DataBase {
 		treeLastname.removeE(lastnameKey);
 		treeFullName.removeE(fullNameKey);
 		treeCode.removeE(code);
+
 		
 	}
 	
